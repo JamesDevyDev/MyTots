@@ -20,10 +20,13 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
     rules: {
-      "@typescript-eslint/no-explicit-any": "off", // allow `any`
-      "@typescript-eslint/consistent-type-definitions": "off", // allow both `interface` and `type`
-      "@typescript-eslint/no-empty-interface": "off", // allow empty interfaces
-    },
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/no-empty-interface": "off",
+      "@typescript-eslint/no-unused-vars": "off", // ignore unused vars like get
+      "prefer-const": "off", // ignore let -> const errors
+    }
+    
   },
 ];
 

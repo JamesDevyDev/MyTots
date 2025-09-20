@@ -33,11 +33,11 @@ const CreatePage = () => {
                     <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl px-4 flex items-center relative"></div>
 
                     {/* Card Body */}
-                    <div className="px-4 min-h-[200px] bg-[#FFF8ED] rounded-b-xl flex flex-col justify-center items-center text-center">
+                    <div className="px-4 py-6 bg-[#FFF8ED] rounded-b-xl flex flex-col items-center text-center">
                         {/* Mood emoji */}
                         <div className="text-[48px] mb-2">{mood}</div>
 
-                        {/* Dynamic common emotion label */}
+                        {/* Dynamic emotion label */}
                         <div className="text-gray-500 mb-2">
                             {(() => {
                                 switch (mood) {
@@ -53,7 +53,7 @@ const CreatePage = () => {
                         </div>
 
                         {/* Thought content */}
-                        <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap mb-2">
+                        <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-2 w-[90%]">
                             {thought || "Your thought will appear here..."}
                         </div>
 

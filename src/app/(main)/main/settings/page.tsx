@@ -23,12 +23,10 @@ const SettingsPage = () => {
     };
 
     return (
-        <div className="w-full min-h-screen bg-[#FED6B4] flex justify-center px-4 py-8">
-            <div className="w-full max-w-lg bg-[#FFF8ED] rounded-2xl shadow-lg p-8 space-y-6">
-                <h1 className="text-3xl font-bold text-black italiana-bold text-center">
-                    Settings
-                </h1>
+        <div className="w-full min-h-screen bg-[#FED6B4] flex justify-start items-center px-4 py-8 flex-col">
+            <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold">Settings</h1>
 
+            <div className="w-full max-w-lg bg-[#FFF8ED] rounded-2xl shadow-lg p-8 space-y-6">
                 <form className="space-y-5" onSubmit={handleSubmit}>
                     {/* Username */}
                     <div>

@@ -19,7 +19,7 @@ const Login = () => {
     };
 
     return (
-        <div className="w-full min-h-screen bg-[#E5E5E5] flex items-center justify-center px-4 flex-col">
+        <div className="w-full min-h-screen bg-[#FED6B4] flex items-center justify-center px-4 flex-col">
 
             <Link href='/' className="italiana-bold text-[64px] text-black cursor-pointer">MyTots</Link>
 

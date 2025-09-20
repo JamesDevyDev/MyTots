@@ -23,7 +23,7 @@ const Sidebar = () => {
                     aria-label="close sidebar"
                     className="drawer-overlay"
                 ></label>
-                <div className="bg-[#C4C4C4] text-black min-h-full w-80 p-4 flex flex-col">
+                <div className="bg-[#C4C4C4] text-black min-h-full w-60 p-4 flex flex-col">
                     {/* Top menu */}
                     <ul className="menu space-y-2 flex-1 w-full italiana-bold ">
                         {/* Username placeholder */}

@@ -1,26 +1,32 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.italiana-regular {
+  font-family: "Italiana", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.italiana-bold {
+  font-family: "Italiana", sans-serif;
+  font-weight: 900;
+  font-style: bold;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.italianno-regular {
+  font-family: "Italianno", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.italianno-bold {
+  font-family: "Italianno", cursive;
+  font-weight: 900;
+  font-style: bold;
 }
+
+/* E5E5E5 background */
+/* #FFFFFF white */
+/* C4C4C4 dull */
+/*  */
+/*  */

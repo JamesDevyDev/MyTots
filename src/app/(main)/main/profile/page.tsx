@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 
 type Thought = {
     id: number;
@@ -32,14 +31,14 @@ const ProfilePage = () => {
             newIcons[t.id] = Math.random() < 0.5 ? 'pin' : 'clip';
         });
         setIcons(newIcons);
-    }, [thoughts]); // ✅ added dependency
+    }, []);
 
     return (
         <div className="min-h-screen bg-[#FED6B4] flex flex-col items-center py-8 px-4">
             <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold">Profile</h1>
 
             {/* Profile Header */}
-            <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center space-y-4 w-full max-w-3xl">
+            <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center space-y-4 w-md max-w-3xl">
                 <h1 className="text-3xl text-black italianno-bold">@{user.username}</h1>
                 <p className="text-gray-600">{user.email}</p>
                 <p className="text-gray-500 text-sm">Joined {user.joinDate}</p>
@@ -56,26 +55,15 @@ const ProfilePage = () => {
                     >
                         {/* Top yellow header */}
                         <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl px-4 flex items-center relative">
-                            {icons[thought.id] === 'pin' && (
-                                <div className="w-[80px] h-[80px] absolute right-0 top-[-150%]">
-                                    <Image
-                                        src="/assets/browse/pin.webp"
-                                        alt="Pin icon"
-                                        width={80}
-                                        height={80}
-                                    />
+                            {icons[thought.id] === 'pin' ? (
+                                <div className=' w-[80px] h-[80px] absolute right-[0] top-[-150%]'>
+                                    <img src='/assets/browse/pin.webp' />
                                 </div>
-                            )}
-                            {icons[thought.id] === 'clip' && (
-                                <div className="w-[150px] h-[150px] absolute right-0 top-[-85%]">
-                                    <Image
-                                        src="/assets/browse/clip.png"
-                                        alt="Clip icon"
-                                        width={150}
-                                        height={150}
-                                    />
+                            ) : icons[thought.id] === 'clip' ? (
+                                <div className=' w-[150px] h-[150px] absolute right-[0%] top-[-85%]'>
+                                    <img src='/assets/browse/clip.png' />
                                 </div>
-                            )}
+                            ) : null}
                         </div>
 
                         {/* Thought preview */}
@@ -97,7 +85,8 @@ const ProfilePage = () => {
 
                             {/* Top yellow header */}
                             <div className="bg-[#FFDA5C] h-16 w-full rounded-t-xl px-4 flex items-center justify-end relative">
-                                <div className="self-end h-full flex items-center justify-center">
+                                {/* Close button */}
+                                <div className="self-end h-[100%] flex items-center justify-center">
                                     <button
                                         className="text-[#A77D18] cursor-pointer text-center"
                                         onClick={() => setSelectedThought(null)}
@@ -109,8 +98,11 @@ const ProfilePage = () => {
 
                             {/* Modal Body */}
                             <div className="px-4 pb-6 bg-[#FFF8ED] rounded-b-xl flex flex-col items-center text-center">
+
+                                {/* Mood emoji */}
                                 <div className="text-[48px] mb-2">{selectedThought.mood}</div>
 
+                                {/* Dynamic emotion label */}
                                 <div className="text-gray-500 mb-2">
                                     {(() => {
                                         switch (selectedThought.mood) {
@@ -125,10 +117,12 @@ const ProfilePage = () => {
                                     })()}
                                 </div>
 
+                                {/* Full thought content */}
                                 <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-4 w-[90%]">
                                     {selectedThought.content}
                                 </div>
 
+                                {/* Bottom info */}
                                 <div className="flex justify-between w-[90%] text-gray-500 text-sm">
                                     <span>@{user.username}</span>
                                     <span>{selectedThought.date}</span>

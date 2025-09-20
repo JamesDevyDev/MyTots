@@ -28,7 +28,7 @@ const Sidebar = () => {
                 {/* Burger menu button */}
                 <label
                     htmlFor="my-drawer"
-                    className="btn btn-ghost drawer-button bg-black"
+                    className="btn btn-ghost drawer-button bg-black/20"
                 >
                     <Menu size={28} color={"white"} />
                 </label>

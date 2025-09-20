@@ -1,28 +1,56 @@
 "use client";
-
-import React, { useState } from "react";
+import useAuthStore from "@/utils/zustand/useAuthUserStore";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { getAuthenticatedUser } from "@/utils/VerifyUser";
 
 interface RegisterForm {
     username: string;
-    email: string;
     password: string;
 }
 
 const Register = () => {
+    const { RegisterFunction, authUser, getAuthUserFunction } = useAuthStore();
+    const router = useRouter();
+
     const [form, setForm] = useState<RegisterForm>({
         username: "",
-        email: "",
         password: "",
     });
+
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        getAuthUserFunction();
+    }, [getAuthUserFunction]);
+
+    useEffect(() => {
+        if (authUser) {
+            router.push("/main/browse");
+        }
+    }, [authUser, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Register data:", form);
+        setLoading(true);
+        setError("");
+
+        const data = await RegisterFunction(form);
+
+        setLoading(false);
+
+        if (data?.error) {
+            setError(data.error);
+            return;
+        }
+
+        router.push("/login"); // redirect after successful registration
     };
 
     return (
@@ -44,14 +72,6 @@ const Register = () => {
                         className="p-3 border border-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-base sm:text-lg text-black"
                     />
                     <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="Email"
-                        className="p-3 border border-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-base sm:text-lg text-black"
-                    />
-                    <input
                         type="password"
                         name="password"
                         value={form.password}
@@ -59,11 +79,16 @@ const Register = () => {
                         placeholder="Password"
                         className="p-3 border border-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-base sm:text-lg text-black"
                     />
+
+                    {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+
                     <button
                         type="submit"
-                        className="w-full py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition italiana-bold text-base sm:text-lg cursor-pointer"
+                        className="w-full py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition italiana-bold text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer"
+                        disabled={loading}
                     >
-                        Register
+                        {loading && <span className="loading loading-spinner loading-sm"></span>}
+                        {loading ? "Registering..." : "Register"}
                     </button>
                 </form>
                 <p className="text-center mt-4 text-gray-700 text-sm sm:text-base">

@@ -1,26 +1,56 @@
 "use client";
 
-import React, { useState } from "react";
+import useAuthStore from "@/utils/zustand/useAuthUserStore";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 interface LoginForm {
-    email: string;
+    username: string;
     password: string;
 }
 
 const Login = () => {
+    const { LoginFunction, authUser, getAuthUserFunction } = useAuthStore();
+    const router = useRouter();
+
     const [form, setForm] = useState<LoginForm>({
-        email: "",
+        username: "",
         password: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        getAuthUserFunction(); 
+    }, [getAuthUserFunction]);
+
+    useEffect(() => {
+        if (authUser) {
+            router.push("/main/browse");
+        }
+    }, [authUser, router]);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
+
+        const data = await LoginFunction(form);
+
+        setLoading(false);
+
+        if (data?.error) {
+            setError(data.error);
+            return;
+        }
+
+        router.push('/main/browse');
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("Login data:", form);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
     };
 
     return (
@@ -36,11 +66,11 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <input
-                        type="email"
-                        name="email"
-                        value={form.email}
+                        type="text"
+                        name="username"
+                        value={form.username}
                         onChange={handleChange}
-                        placeholder="Email"
+                        placeholder="Username"
                         className="p-3 border border-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-base sm:text-lg text-black"
                     />
 
@@ -53,11 +83,15 @@ const Login = () => {
                         className="p-3 border border-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-base sm:text-lg text-black"
                     />
 
+                    {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+
                     <button
                         type="submit"
-                        className="w-full py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition italiana-bold text-base sm:text-lg cursor-pointer"
+                        className="w-full py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition italiana-bold text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer"
+                        disabled={loading}
                     >
-                        Login
+                        {loading && <span className="loading loading-spinner loading-sm"></span>}
+                        {loading ? "Logging in..." : "Login"}
                     </button>
                 </form>
 

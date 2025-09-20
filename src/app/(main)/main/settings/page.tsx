@@ -9,14 +9,14 @@ const SettingsPage = () => {
         password: "",
     });
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("Updated settings:", formData);
         // TODO: send to backend API
@@ -74,7 +74,7 @@ const SettingsPage = () => {
                     {/* Save Button */}
                     <button
                         type="submit"
-                        className="w-full py-3 bg-[#FFDA5C] text-black font-semibold rounded-xl hover:bg-yellow-400 transition shadow-md italiana-bold cursor-pointer   "
+                        className="w-full py-3 bg-[#FFDA5C] text-black font-semibold rounded-xl hover:bg-yellow-400 transition shadow-md italiana-bold cursor-pointer"
                     >
                         Save Changes
                     </button>

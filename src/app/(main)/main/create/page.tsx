@@ -11,7 +11,7 @@ const formatDate = (date: Date) => {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
-    }).replace(",", "") // optional, to remove extra comma
+    }).replace(",", ""); // optional, to remove extra comma
 };
 
 const CreatePage = () => {
@@ -19,25 +19,25 @@ const CreatePage = () => {
     const [mood, setMood] = useState("😊");
     const currentDate = new Date();
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log({ thought, mood, date: currentDate });
+        // Add actual POST logic here
+    };
+
     return (
         <div className="w-full min-h-screen bg-[#FED6B4] flex flex-col items-center px-4 py-8">
-            {/* Page Title */}
             <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold">Create a Thought</h1>
 
-            {/* Thought Form with Live Preview Card */}
             <div className="w-full max-w-2xl space-y-6">
 
                 {/* Live Preview Card */}
                 <div className="bg-white rounded-xl shadow-lg w-full relative">
-                    {/* Top yellow header */}
                     <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl px-4 flex items-center relative"></div>
 
-                    {/* Card Body */}
                     <div className="px-4 py-6 bg-[#FFF8ED] rounded-b-xl flex flex-col items-center text-center">
-                        {/* Mood emoji */}
                         <div className="text-[48px] mb-2">{mood}</div>
 
-                        {/* Dynamic emotion label */}
                         <div className="text-gray-500 mb-2">
                             {(() => {
                                 switch (mood) {
@@ -52,12 +52,10 @@ const CreatePage = () => {
                             })()}
                         </div>
 
-                        {/* Thought content */}
                         <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-2 w-[90%]">
                             {thought || "Your thought will appear here..."}
                         </div>
 
-                        {/* Formatted Current Date */}
                         <span className="text-[32px] text-gray-700 italianno-bold mt-2">
                             {formatDate(currentDate)}
                         </span>
@@ -66,7 +64,7 @@ const CreatePage = () => {
 
                 {/* Form */}
                 <div className="bg-[#FFF8ED] rounded-xl shadow-md p-6 space-y-6">
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit}>
                         <textarea
                             value={thought}
                             onChange={(e) => setThought(e.target.value)}
@@ -74,7 +72,6 @@ const CreatePage = () => {
                             className="w-full h-40 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-700 text-gray-900 placeholder-gray-500 cursor-pointer"
                         />
 
-                        {/* Mood selector */}
                         <div>
                             <label className="block text-gray-800 font-medium mb-2 italiana-bold">
                                 Mood
@@ -93,7 +90,6 @@ const CreatePage = () => {
                             </select>
                         </div>
 
-                        {/* Submit button */}
                         <button
                             type="submit"
                             className="w-full py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition cursor-pointer italiana-bold"

@@ -8,8 +8,10 @@ export const GET = async () => {
     try {
         await connectDb();
 
+        // Fetch all posts, populated with user info and sorted by createdAt in descending order
         const allPosts = await Post.find()
-            .populate("posterId", "username");
+            .populate("posterId", "username")
+            .sort({ createdAt: -1 });  // Sort by createdAt in descending order
 
         return NextResponse.json(allPosts);
     } catch (error) {
@@ -17,6 +19,7 @@ export const GET = async () => {
         return NextResponse.json("Internal Server Error", { status: 500 });
     }
 };
+
 
 //Post a Thought
 export const POST = async (req: Request) => {

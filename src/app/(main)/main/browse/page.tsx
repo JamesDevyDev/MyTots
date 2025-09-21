@@ -29,13 +29,12 @@ const formatDate = (isoDate: string) => {
 const BrowsePage = () => {
     const { getAllPost, posts } = usePostStore();
     const [loading, setLoading] = useState(true); // ✅ local loading
-    const [selectedNote, setSelectedNote] = useState<Thought | null>(null);
     const [icons, setIcons] = useState<Record<string, "pin" | "clip">>({});
 
     useEffect(() => {
         const loadPosts = async () => {
             setLoading(true);
-            await getAllPost(); 
+            await getAllPost();
             setLoading(false);
         };
         loadPosts();
@@ -53,12 +52,12 @@ const BrowsePage = () => {
 
     return (
         <div className="min-h-screen bg-[#FED6B4] flex flex-col items-center py-8 px-4">
-            <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold">
+            <h1 className="text-[64px] font-bold mb-8 text-black italianno-bold">
                 Browse Thoughts
             </h1>
 
             {/* Notes column */}
-            <div className="flex flex-col gap-12 w-full max-w-md mx-auto">
+            <div className="flex flex-col gap-8 w-full max-w-md mx-auto">
                 {loading
                     ? Array.from({ length: 2 }).map((_, idx) => (
                         <div
@@ -75,8 +74,7 @@ const BrowsePage = () => {
                     : posts.map((thought: Thought) => (
                         <div
                             key={thought._id}
-                            className="bg-white rounded-xl shadow-lg cursor-pointer hover:shadow-lg transition-shadow duration-200 relative"
-                            onClick={() => setSelectedNote(thought)}
+                            className="bg-white rounded-xl shadow-lg transition-shadow duration-200 relative"
                         >
                             <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl relative">
                                 {icons[thought._id] === "pin" ? (
@@ -90,46 +88,15 @@ const BrowsePage = () => {
                                 ) : null}
                             </div>
 
-                            <div className="h-[200px] px-4 bg-[#FFF8ED] flex flex-col justify-center items-center rounded-b-xl">
-                                <div className="text-[48px] mb-2">{thought.mood}</div>
-                                <span className="text-[40px] text-gray-800 font-semibold italianno-bold">
-                                    {thought?.posterId?.username ?? "Anonymous"}
-                                </span>
-                                <span className="text-[32px] text-gray-700 italianno-bold mt-2">
-                                    {formatDate(thought.createdAt)}
-                                </span>
-                            </div>
-                        </div>
-                    ))}
-            </div>
+                            {/* Display the full content directly below each post */}
+                            <div className="px-6 py-6 bg-[#FFF8ED] rounded-b-xl">
+                                {/* Mood */}
+                                <div className="text-[48px] mb-2 text-center">{thought.mood}</div>
 
-
-            {/* DaisyUI Modal */}
-            <input
-                type="checkbox"
-                id="note-modal"
-                className="modal-toggle"
-                checked={!!selectedNote}
-                readOnly
-            />
-            <label htmlFor="note-modal" className="modal bg-black/50">
-                <label className="modal-box relative cursor-auto max-w-md p-0 bg-transparent">
-                    {selectedNote && (
-                        <div className="bg-white rounded-xl shadow-lg w-full relative">
-                            <div className="bg-[#FFDA5C] h-16 w-full rounded-t-xl px-4 flex items-center justify-end">
-                                <button
-                                    className="text-[#A77D18] cursor-pointer"
-                                    onClick={() => setSelectedNote(null)}
-                                >
-                                    Done
-                                </button>
-                            </div>
-
-                            <div className="px-4 pb-6 bg-[#FFF8ED] rounded-b-xl flex flex-col items-center text-center">
-                                <div className="text-[48px] mb-2">{selectedNote.mood}</div>
-                                <div className="text-gray-500 mb-2">
+                                {/* Mood Description */}
+                                <div className="text-gray-500 mb-4 text-center">
                                     {(() => {
-                                        switch (selectedNote.mood) {
+                                        switch (thought.mood) {
                                             case "😊":
                                                 return "is feeling Happy";
                                             case "😔":
@@ -147,18 +114,25 @@ const BrowsePage = () => {
                                         }
                                     })()}
                                 </div>
-                                <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-4 w-[90%]">
-                                    {selectedNote.content}
+
+                                {/* Content */}
+                                <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-4 w-full">
+                                    {thought.content}
                                 </div>
-                                <div className="flex justify-between w-[90%] text-gray-500 text-sm">
-                                    <span>{selectedNote.posterId?.username ?? "Anonymous"}</span>
-                                    <span>{formatDate(selectedNote.createdAt)}</span>
+
+                                {/* User Info and Date */}
+                                <div className="flex justify-between items-center text-gray-500 text-sm w-full">
+                                    <span className="text-[40px] text-gray-800 font-semibold italianno-bold">
+                                        {thought?.posterId?.username ?? "Anonymous"}
+                                    </span>
+                                    <span className="text-[32px] text-gray-700 italianno-bold mt-2">
+                                        {formatDate(thought.createdAt)}
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                    )}
-                </label>
-            </label>
+                    ))}
+            </div>
         </div>
     );
 };

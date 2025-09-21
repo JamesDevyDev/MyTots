@@ -34,7 +34,7 @@ const ProfilePage = () => {
     const { posts, getAllPost } = usePostStore();
 
     const [icons, setIcons] = useState<Record<string, "pin" | "clip">>({});
-    const [selectedThought, setSelectedThought] = useState<Thought | null>(null);
+    const [loading, setLoading] = useState<boolean>(true); // Local loading state for posts
 
     // Fetch auth user on mount
     useEffect(() => {
@@ -50,9 +50,16 @@ const ProfilePage = () => {
 
     // Fetch posts only if store has none
     useEffect(() => {
-        if (authUser && posts.length === 0) {
-            getAllPost();
-        }
+        const fetchPosts = async () => {
+            if (authUser && posts.length === 0) {
+                setLoading(true); // Set loading to true when fetching posts
+                await getAllPost(); // Fetch posts asynchronously
+                setLoading(false); // Set loading to false after fetching
+            } else {
+                setLoading(false); // If posts are already fetched, set loading to false
+            }
+        };
+        fetchPosts();
     }, [authUser, posts.length, getAllPost]);
 
     // Assign random icons whenever posts change
@@ -68,18 +75,18 @@ const ProfilePage = () => {
 
     // Filter only this user’s posts
     const userPosts = posts.filter(
-        (post: Thought) => post.posterId?._id === authUser?._id
+        (post: Thought) => post?.posterId?._id === authUser?._id
     );
 
     return (
         <div className="min-h-screen bg-[#FED6B4] flex flex-col items-center py-8 px-4">
-            <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold">
+            <h1 className="text-[64px] font-bold mb-8 text-black italianno-bold">
                 Profile
             </h1>
 
             {/* Profile Header */}
             {authUser && (
-                <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center space-y-4 w-md max-w-3xl">
+                <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center space-y-4 w-md max-w-3xl mb-10">
                     <h1 className="text-3xl text-black italianno-bold">
                         @{authUser.username}
                     </h1>
@@ -93,21 +100,36 @@ const ProfilePage = () => {
                 </div>
             )}
 
-            {/* User's Thoughts */}
-            <div className="flex flex-col gap-8 w-full max-w-md mt-8">
-                {userPosts.length === 0 ? (
-                    <p className="text-gray-700 text-center">
-                        No thoughts posted yet.
-                    </p>
+            {/* Notes Column */}
+            <div className="flex flex-col gap-8 w-full max-w-md mx-auto">
+                {loading ? (
+                    // Skeleton loading UI
+                    Array.from({ length: 2 }).map((_, idx) => (
+                        <div
+                            key={idx}
+                            className="bg-white rounded-xl shadow-lg relative skeleton"
+                        >
+                            {/* Top header skeleton */}
+                            <div className="bg-gray-200 h-8 w-full rounded-t-xl"></div>
+
+                            {/* Whole body skeleton */}
+                            <div className="h-[200px] bg-gray-100 rounded-b-xl"></div>
+                        </div>
+                    ))
+                ) : userPosts.length === 0 ? (
+                    // Message when there are no posts available
+                    <div className="text-gray-500 text-lg text-center">
+                        No posts available yet. Start creating!
+                    </div>
                 ) : (
-                    userPosts.map((thought) => (
+                    // Render the user's posts when available
+                    userPosts.map((thought: Thought) => (
                         <div
                             key={thought._id}
-                            className="bg-white rounded-xl shadow-lg cursor-pointer hover:shadow-xl transition-shadow duration-200 relative"
-                            onClick={() => setSelectedThought(thought)}
+                            className="bg-white rounded-xl shadow-lg transition-shadow duration-200 relative"
                         >
                             {/* Top yellow header */}
-                            <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl px-4 flex items-center relative">
+                            <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl relative">
                                 {icons[thought._id] === "pin" ? (
                                     <div className="w-[80px] h-[80px] absolute right-[0] top-[-150%]">
                                         <img src="/assets/browse/pin.webp" />
@@ -119,83 +141,52 @@ const ProfilePage = () => {
                                 ) : null}
                             </div>
 
-                            {/* Thought preview */}
-                            <div className="h-[200px] px-4 bg-[#FFF8ED] relative flex flex-col justify-center items-center rounded-b-xl">
-                                <div className="text-[48px] mb-2">{thought.mood}</div>
-                                <span className="text-[40px] text-gray-800 font-semibold italianno-bold">
-                                    {authUser?.username}
-                                </span>
-                                <span className="text-[32px] text-gray-700 italianno-bold mt-2">
-                                    {formatDate(thought.createdAt)}
-                                </span>
+                            {/* Content of the thought */}
+                            <div className="px-6 py-6 bg-[#FFF8ED] rounded-b-xl">
+                                {/* Mood */}
+                                <div className="text-[48px] mb-2 text-center">{thought.mood}</div>
+
+                                {/* Mood Description */}
+                                <div className="text-gray-500 mb-4 text-center">
+                                    {(() => {
+                                        switch (thought.mood) {
+                                            case "😊":
+                                                return "is feeling Happy";
+                                            case "😔":
+                                                return "is feeling Sad";
+                                            case "😡":
+                                                return "is feeling Angry";
+                                            case "😌":
+                                                return "is feeling Relaxed";
+                                            case "🤔":
+                                                return "is feeling Thoughtful";
+                                            case "😞":
+                                                return "is feeling Disappointed";
+                                            default:
+                                                return "is feeling Neutral";
+                                        }
+                                    })()}
+                                </div>
+
+                                {/* Content */}
+                                <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-4 w-full">
+                                    {thought.content}
+                                </div>
+
+                                {/* User Info and Date */}
+                                <div className="flex justify-between items-center text-gray-500 text-sm w-full">
+                                    <span className="text-[40px] text-gray-800 font-semibold italianno-bold">
+                                        {thought?.posterId?.username ?? "Anonymous"}
+                                    </span>
+                                    <span className="text-[32px] text-gray-700 italianno-bold mt-2">
+                                        {formatDate(thought.createdAt)}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     ))
                 )}
             </div>
-
-            {/* Modal */}
-            <input
-                type="checkbox"
-                id="note-modal"
-                className="modal-toggle"
-                checked={!!selectedThought}
-                readOnly
-            />
-            <label htmlFor="note-modal" className="modal bg-black/50">
-                <label className="modal-box relative cursor-auto max-w-md p-0 bg-transparent">
-                    {selectedThought && (
-                        <div className="bg-white rounded-xl shadow-lg w-full relative">
-                            {/* Top yellow header */}
-                            <div className="bg-[#FFDA5C] h-16 w-full rounded-t-xl px-4 flex items-center justify-end relative">
-                                {/* Close button */}
-                                <div className="self-end h-[100%] flex items-center justify-center">
-                                    <button
-                                        className="text-[#A77D18] cursor-pointer text-center h-full w-[100%]"
-                                        onClick={() => setSelectedThought(null)}
-                                    >
-                                        Done
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Modal Body */}
-                            <div className="px-4 pb-6 bg-[#FFF8ED] rounded-b-xl flex flex-col items-center text-center">
-                                {/* Mood emoji */}
-                                <div className="text-[48px] mb-2">
-                                    {selectedThought.mood}
-                                </div>
-
-                                {/* Dynamic emotion label */}
-                                <div className="text-gray-500 mb-2">
-                                    {(() => {
-                                        switch (selectedThought.mood) {
-                                            case "😊": return "is feeling Happy";
-                                            case "😔": return "is feeling Sad";
-                                            case "😡": return "is feeling Angry";
-                                            case "😌": return "is feeling Relaxed";
-                                            case "🤔": return "is feeling Thoughtful";
-                                            case "😞": return "is feeling Disappointed";
-                                            default: return "is feeling Neutral";
-                                        }
-                                    })()}
-                                </div>
-
-                                {/* Full thought content */}
-                                <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-4 w-[90%]">
-                                    {selectedThought.content}
-                                </div>
-
-                                {/* Bottom info */}
-                                <div className="flex justify-between w-[90%] text-gray-500 text-sm">
-                                    <span>{authUser?.username}</span>
-                                    <span>{formatDate(selectedThought.createdAt)}</span>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </label>
-            </label>
         </div>
     );
 };

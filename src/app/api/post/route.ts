@@ -1,14 +1,13 @@
 import { connectDb } from "@/utils/utils/connectDb";
 import { NextResponse } from "next/server";
 import Post from "@/utils/models/Post.Model";
-import User from "@/utils/models/User.Model";
+import "@/utils/models/User.Model";
 
 //Get All post
 export const GET = async () => {
     try {
         await connectDb();
 
-        // Fetch all posts, populated with user info and sorted by createdAt in descending order
         const allPosts = await Post.find()
             .populate("posterId", "username")
             .sort({ createdAt: -1 });  // Sort by createdAt in descending order

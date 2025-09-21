@@ -4,10 +4,10 @@ export default function Home() {
   return (
     <div className="w-[100vw] h-[100vh] bg-[#E5E5E5] relative overflow-hidden flex items-center justify-center">
       {/* Design background */}
-      <div className="absolute inset-0 z-0">
+      <div className="fixed inset-0 z-0">
         <img src="/assets/landing/landing1.png" className="absolute right-0" />
         <img src="/assets/landing/landing2.png" className="absolute left-0" />
-        <img src="/assets/landing/landing3.png" className="absolute left-0 bottom-0" />
+        <img src="/assets/landing/landing3.png" className="absolute left-[-5px] bottom-0" />
         <img src="/assets/landing/landing4.png" className="absolute right-0 bottom-0" />
         <img src="/assets/landing/landing5.png" className="absolute left-0 bottom-0" />
         <img src="/assets/landing/landing6.png" className="absolute right-0 top-0" />

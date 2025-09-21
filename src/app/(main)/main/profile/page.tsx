@@ -85,7 +85,7 @@ const ProfilePage = () => {
             <div className="fixed inset-0 z-0">
                 <img src="/assets/landing/landing1.png" className="absolute right-0" />
                 <img src="/assets/landing/landing2.png" className="absolute left-0" />
-                <img src="/assets/landing/landing3.png" className="absolute left-0 bottom-0" />
+                <img src="/assets/landing/landing3.png" className="absolute left-[-5px] bottom-0" />
                 <img src="/assets/landing/landing4.png" className="absolute right-0 bottom-0" />
                 <img src="/assets/landing/landing5.png" className="absolute left-0 bottom-0" />
                 <img src="/assets/landing/landing6.png" className="absolute right-0 top-0" />

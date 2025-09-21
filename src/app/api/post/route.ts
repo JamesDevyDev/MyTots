@@ -2,6 +2,7 @@ import { connectDb } from "@/utils/utils/connectDb";
 import { NextResponse } from "next/server";
 import Post from "@/utils/models/Post.Model";
 import User from "@/utils/models/User.Model";
+
 //Get All post
 export const GET = async () => {
     try {

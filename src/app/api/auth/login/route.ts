@@ -1,5 +1,5 @@
 import { connectDb } from "@/utils/utils/connectDb"
-import Users from "@/utils/models/User.Model"
+import User from "@/utils/models/User.Model"
 import bcrypt from 'bcrypt'
 import { NextResponse } from "next/server"
 
@@ -21,7 +21,7 @@ export const POST = async (request: Request) => {
     const body = await request.json()
     const { username, password } = body
 
-    const ifExist = await Users.findOne({ username: username })
+    const ifExist = await User.findOne({ username: username })
     if (!ifExist) return NextResponse.json("User doesn't exist.", { status: 400 })
     const isMatched = await bcrypt.compare(password, ifExist.password)
     if (!isMatched) return NextResponse.json("Password does not match.", { status: 400 })

@@ -1,5 +1,5 @@
 import { connectDb } from "@/utils/utils/connectDb"
-import Users from "@/utils/models/User.Model"
+import User from "@/utils/models/User.Model"
 import bcrypt from 'bcrypt'
 import { NextResponse } from "next/server"
 
@@ -18,7 +18,7 @@ export const POST = async (request: Request) => {
             return NextResponse.json("Password must be at least 6 characters long.", { status: 400 })
         }
 
-        const ifExist = await Users.findOne({ username: username })
+        const ifExist = await User.findOne({ username: username })
         if (ifExist) {
             return NextResponse.json("Username already exists.", { status: 400 })
         }
@@ -26,7 +26,7 @@ export const POST = async (request: Request) => {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        const newUser = new Users({ username, password: hashedPassword })
+        const newUser = new User({ username, password: hashedPassword })
         await newUser.save()
 
         return NextResponse.json(newUser)

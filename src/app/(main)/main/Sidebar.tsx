@@ -96,7 +96,14 @@ const Sidebar = () => {
                             </Link>
                         </li>
 
-                        <li>
+
+
+                    </ul>
+
+
+{/* If user is not logged in you can see this. */}
+                    {!authUser &&
+                        <><li>
                             <Link
                                 href="/login"
                                 onClick={closeDrawer}
@@ -105,18 +112,16 @@ const Sidebar = () => {
                                 <User size={20} /> Login
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                href="/register"
-                                onClick={closeDrawer}
-                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                            >
-                                <PlusSquare size={20} /> Register
-                            </Link>
-                        </li>
-
-
-                    </ul>
+                            <li>
+                                <Link
+                                    href="/register"
+                                    onClick={closeDrawer}
+                                    className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                                >
+                                    <PlusSquare size={20} /> Register
+                                </Link>
+                            </li></>
+                    }
 
                     {/* Logout at the bottom */}
                     {authUser &&

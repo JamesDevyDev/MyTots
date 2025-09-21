@@ -41,6 +41,10 @@ const Sidebar = () => {
                     className="drawer-overlay"
                 ></label>
                 <div className="bg-[#C4C4C4] text-black min-h-full w-60 p-4 flex flex-col">
+                    <Link href='/' className='w-full h-[50px] text-center italiana-bold text-[35px]'>
+                        MyTots
+                    </Link>
+
                     {/* Top menu */}
                     <ul className="menu space-y-2 flex-1 w-full italiana-bold">
                         {authUser ? (
@@ -63,58 +67,55 @@ const Sidebar = () => {
                             </Link>
                         </li>
 
-                        {authUser ? (
-                            <>
-                                <li>
-                                    <Link
-                                        href="/main/create"
-                                        onClick={closeDrawer}
-                                        className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                                    >
-                                        <PlusSquare size={20} /> Create Thought
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/main/profile"
-                                        onClick={closeDrawer}
-                                        className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                                    >
-                                        <User size={20} /> My Profile
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/main/settings"
-                                        onClick={closeDrawer}
-                                        className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                                    >
-                                        <Settings size={20} /> Settings
-                                    </Link>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                <li>
-                                    <Link
-                                        href="/login"
-                                        onClick={closeDrawer}
-                                        className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                                    >
-                                        <User size={20} /> Login
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/register"
-                                        onClick={closeDrawer}
-                                        className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                                    >
-                                        <PlusSquare size={20} /> Register
-                                    </Link>
-                                </li>
-                            </>
-                        )}
+
+                        <li>
+                            <Link
+                                href="/main/create"
+                                onClick={closeDrawer}
+                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                            >
+                                <PlusSquare size={20} /> Create Thought
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/main/profile"
+                                onClick={closeDrawer}
+                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                            >
+                                <User size={20} /> My Profile
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/main/settings"
+                                onClick={closeDrawer}
+                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                            >
+                                <Settings size={20} /> Settings
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link
+                                href="/login"
+                                onClick={closeDrawer}
+                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                            >
+                                <User size={20} /> Login
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/register"
+                                onClick={closeDrawer}
+                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                            >
+                                <PlusSquare size={20} /> Register
+                            </Link>
+                        </li>
+
+
                     </ul>
 
                     {/* Logout at the bottom */}

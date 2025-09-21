@@ -89,7 +89,7 @@ const CreatePage = () => {
                 Create a Thought
             </h1>
 
-            <div className="w-full max-w-2xl space-y-6">
+            <div className="w-full max-w-2xl space-y-6 z-1">
                 {/* Live Preview */}
                 <div className="bg-white rounded-xl shadow-lg">
                     <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl"></div>

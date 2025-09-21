@@ -9,11 +9,11 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     content: {
-        type: "string",
+        type: String,
         required: true
     },
     mood: {
-        type: "string",
+        type: String,
         required: true
     }
 

@@ -27,7 +27,7 @@ const Sidebar = () => {
                 {/* Burger menu button */}
                 <label
                     htmlFor="my-drawer"
-                    className="btn btn-ghost drawer-button bg-black/20"
+                    className="btn btn-ghost drawer-button bg-black/70"
                 >
                     <Menu size={28} color={"white"} />
                 </label>
@@ -101,7 +101,7 @@ const Sidebar = () => {
                     </ul>
 
 
-{/* If user is not logged in you can see this. */}
+                    {/* If user is not logged in you can see this. */}
                     {!authUser &&
                         <><li>
                             <Link

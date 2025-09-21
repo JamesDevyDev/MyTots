@@ -80,7 +80,18 @@ const ProfilePage = () => {
 
     return (
         <div className="min-h-screen bg-[#FED6B4] flex flex-col items-center py-8 px-4">
-            <h1 className="text-[64px] font-bold mb-8 text-black italianno-bold">
+
+            {/* Designs */}
+            <div className="fixed inset-0 z-0">
+                <img src="/assets/landing/landing1.png" className="absolute right-0" />
+                <img src="/assets/landing/landing2.png" className="absolute left-0" />
+                <img src="/assets/landing/landing3.png" className="absolute left-0 bottom-0" />
+                <img src="/assets/landing/landing4.png" className="absolute right-0 bottom-0" />
+                <img src="/assets/landing/landing5.png" className="absolute left-0 bottom-0" />
+                <img src="/assets/landing/landing6.png" className="absolute right-0 top-0" />
+            </div>
+
+            <h1 className="text-[64px] font-bold mb-8 text-black italianno-bold z-1">
                 Profile
             </h1>
 

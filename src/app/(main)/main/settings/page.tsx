@@ -45,7 +45,18 @@ const SettingsPage = () => {
 
     return (
         <div className="w-full min-h-screen bg-[#FED6B4] flex justify-start items-center px-4 py-8 flex-col">
-            <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold">Settings</h1>
+
+            {/* Designs */}
+            <div className="fixed inset-0 z-0">
+                <img src="/assets/landing/landing1.png" className="absolute right-0" />
+                <img src="/assets/landing/landing2.png" className="absolute left-0" />
+                <img src="/assets/landing/landing3.png" className="absolute left-0 bottom-0" />
+                <img src="/assets/landing/landing4.png" className="absolute right-0 bottom-0" />
+                <img src="/assets/landing/landing5.png" className="absolute left-0 bottom-0" />
+                <img src="/assets/landing/landing6.png" className="absolute right-0 top-0" />
+            </div>
+
+            <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold z-1">Settings</h1>
 
             <div className="w-full max-w-lg bg-[#FFF8ED] rounded-2xl shadow-lg p-8 space-y-6">
                 <form className="space-y-5" onSubmit={handleSubmit}>

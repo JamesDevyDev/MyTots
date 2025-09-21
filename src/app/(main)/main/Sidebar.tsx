@@ -6,20 +6,19 @@ import Link from "next/link";
 import { Menu, User, BookOpen, PlusSquare, Settings, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-
-
-
 const Sidebar = () => {
-
     const { authUser, getAuthUserFunction, LogoutFunction } = useAuthStore()
-
     const router = useRouter()
 
     useEffect(() => {
         getAuthUserFunction()
     }, [])
 
-
+    // helper function to close sidebar
+    const closeDrawer = () => {
+        const drawer = document.getElementById("my-drawer") as HTMLInputElement
+        if (drawer) drawer.checked = false
+    }
 
     return (
         <div className="drawer">
@@ -44,7 +43,6 @@ const Sidebar = () => {
                 <div className="bg-[#C4C4C4] text-black min-h-full w-60 p-4 flex flex-col">
                     {/* Top menu */}
                     <ul className="menu space-y-2 flex-1 w-full italiana-bold">
-                        {/* Username placeholder */}
                         {authUser ? (
                             <li className="mb-4">
                                 <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-100 w-full">
@@ -58,6 +56,7 @@ const Sidebar = () => {
                         <li>
                             <Link
                                 href="/main/browse"
+                                onClick={closeDrawer}
                                 className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
                             >
                                 <BookOpen size={20} /> Browse Thoughts
@@ -69,6 +68,7 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         href="/main/create"
+                                        onClick={closeDrawer}
                                         className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
                                     >
                                         <PlusSquare size={20} /> Create Thought
@@ -77,6 +77,7 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         href="/main/profile"
+                                        onClick={closeDrawer}
                                         className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
                                     >
                                         <User size={20} /> My Profile
@@ -85,6 +86,7 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         href="/main/settings"
+                                        onClick={closeDrawer}
                                         className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
                                     >
                                         <Settings size={20} /> Settings
@@ -96,6 +98,7 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         href="/login"
+                                        onClick={closeDrawer}
                                         className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
                                     >
                                         <User size={20} /> Login
@@ -104,6 +107,7 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         href="/register"
+                                        onClick={closeDrawer}
                                         className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
                                     >
                                         <PlusSquare size={20} /> Register
@@ -113,14 +117,14 @@ const Sidebar = () => {
                         )}
                     </ul>
 
-
                     {/* Logout at the bottom */}
                     {authUser &&
-                        < div className="mt-auto">
+                        <div className="mt-auto">
                             <div
                                 className="flex items-center gap-2 p-3 rounded-lg text-red-600 hover:bg-red-100 transition cursor-pointer w-full"
                                 onClick={() => {
                                     LogoutFunction()
+                                    closeDrawer()
                                     router.push('/')
                                 }}
                             >
@@ -133,4 +137,4 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar
+export default Sidebar;

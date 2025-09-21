@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const PostSchema = new mongoose.Schema({
     posterId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "user",
         required: true
     },
     content: {
@@ -18,6 +18,6 @@ const PostSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-const Post = mongoose.models.Post || mongoose.model('Post', PostSchema)
+const Post = mongoose.models.Post || mongoose.model('post', PostSchema)
 
 export default Post

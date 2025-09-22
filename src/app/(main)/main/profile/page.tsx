@@ -129,12 +129,16 @@ const ProfilePage = () => {
                             >
                                 {/* Header */}
                                 <div
-                                    className={`flex items-center justify-between bg-${t.color}-500 px-5 rounded-xl text-sm md:text-lg`}
+                                    className={`flex items-center justify-between px-[20px] rounded-xl text-sm md:text-lg ${t.color === "blue" ? "bg-blue-800" :
+                                        t.color === "pink" ? "bg-pink-800" :
+                                            t.color === "purple" ? "bg-purple-800" :
+                                                t.color === "green" ? "bg-green-800" : ""
+                                        }`}
                                 >
-                                    <span className="font-bold">{t.posterId.username}</span>
-                                    <span className={`font-bold text-${t.color}-800 capitalize`}>
+                                    <div className="font-bold">{t.posterId.username}</div>
+                                    <div className="font-bold ">
                                         Feeling {t.mood}
-                                    </span>
+                                    </div>
                                 </div>
 
                                 {/* Content */}

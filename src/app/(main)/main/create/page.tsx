@@ -140,7 +140,7 @@ const CreatePage = () => {
                             maxLength={430}
                             onChange={(e) => setThought(e.target.value)}
                             placeholder="What's on your mind?"
-                            className="w-full min-h-[100px] md:min-h-[120px] p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-700 text-gray-900 placeholder-gray-500 text-xs md:text-sm"
+                            className="w-full min-h-[100px] md:min-h-[120px] p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-700 text-gray-900 placeholder-gray-500 text-base md:text-base"
                         />
 
                         {/* Mood select */}

@@ -31,6 +31,12 @@
   font-style: normal;
 }
 
+input,
+textarea,
+select {
+  -webkit-text-size-adjust: 100%;
+}
+
 /* E5E5E5 background */
 /* #FFFFFF white */
 /* C4C4C4 dull */

@@ -59,7 +59,7 @@ const BrowsePage = () => {
                 {loading ? (
                     <p className="text-gray-700 bungee-regular">Loading thoughts...</p>
                 ) : posts.length === 0 ? (
-                        <p className="text-gray-700 bungee-regular">No thoughts yet.</p>
+                    <p className="text-gray-700 bungee-regular">No thoughts yet.</p>
                 ) : (
                     posts.map((t: Thought) => (
                         <div key={t._id} className="relative flex justify-center mb-10">
@@ -76,10 +76,14 @@ const BrowsePage = () => {
                             >
                                 {/* Header */}
                                 <div
-                                    className={`flex items-center justify-between bg-${t.color}-500 px-[20px] rounded-xl text-sm md:text-lg`}
+                                    className={`flex items-center justify-between px-[20px] rounded-xl text-sm md:text-lg ${t.color === "blue" ? "bg-blue-800" :
+                                        t.color === "pink" ? "bg-pink-800" :
+                                            t.color === "purple" ? "bg-purple-800" :
+                                                t.color === "green" ? "bg-green-800" : ""
+                                        }`}
                                 >
                                     <div className="font-bold">{t.posterId.username}</div>
-                                    <div className={`font-bold text-${t.color}-800 capitalize`}>
+                                    <div className="font-bold ">
                                         Feeling {t.mood}
                                     </div>
                                 </div>

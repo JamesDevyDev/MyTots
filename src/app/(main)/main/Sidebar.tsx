@@ -29,7 +29,7 @@ const Sidebar = () => {
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
 
             {/* Burger button */}
-            <div className="drawer-content px-6 py-6 fixed z-[1]">
+            <div className="drawer-content px-6 py-6 fixed z-7">
                 <label
                     htmlFor="my-drawer"
                     className="btn btn-ghost drawer-button bg-black/70"

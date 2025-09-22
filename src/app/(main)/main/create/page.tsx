@@ -100,16 +100,56 @@ const CreatePage = () => {
 
                     {/* Card */}
                     <div
-                        className={`w-[300px] h-[300px] md:w-[400px] h-[400px] bg-${color}-300 rounded-xl relative z-10 p-5 text-black bungee-regular flex flex-col`}
+                        className={`w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-xl relative z-10 p-5 flex flex-col bungee-regular ${color === "blue"
+                            ? "bg-blue-300 text-black"
+                            : color === "pink"
+                                ? "bg-pink-300 text-black"
+                                : color === "purple"
+                                    ? "bg-purple-300 text-black"
+                                    : color === "green"
+                                        ? "bg-green-300 text-black"
+                                        : color === "yellow"
+                                            ? "bg-yellow-300 text-black"
+                                            : color === "orange"
+                                                ? "bg-orange-300 text-black"
+                                                : color === "red"
+                                                    ? "bg-red-300 text-black"
+                                                    : color === "teal"
+                                                        ? "bg-teal-300 text-black"
+                                                        : color === "lime"
+                                                            ? "bg-lime-300 text-black"
+                                                            : color === "indigo"
+                                                                ? "bg-indigo-300 text-black"
+                                                                : "bg-gray-300 text-black"
+                            }`}
                     >
                         {/* Header */}
                         <div
-                            className={`flex items-center justify-between bg-${color}-500 px-[25px] rounded-xl text-sm md:text-lg`}
+                            className={`flex items-center justify-between px-[20px] rounded-xl text-sm md:text-lg ${color === "blue"
+                                ? "bg-blue-800 text-black"
+                                : color === "pink"
+                                    ? "bg-pink-800 text-black"
+                                    : color === "purple"
+                                        ? "bg-purple-800 text-black"
+                                        : color === "green"
+                                            ? "bg-green-800 text-black"
+                                            : color === "yellow"
+                                                ? "bg-yellow-800 text-black"
+                                                : color === "orange"
+                                                    ? "bg-orange-800 text-black"
+                                                    : color === "red"
+                                                        ? "bg-red-800 text-black"
+                                                        : color === "teal"
+                                                            ? "bg-teal-800 text-black"
+                                                            : color === "lime"
+                                                                ? "bg-lime-800 text-black"
+                                                                : color === "indigo"
+                                                                    ? "bg-indigo-800 text-black"
+                                                                    : "bg-gray-800 text-black"
+                                }`}
                         >
-                            <div className=" font-bold">{authUser?.username || "You"}</div>
-                            <div className={` font-bold text-${color}-800 capitalize`}>
-                                Feeling {mood}
-                            </div>
+                            <div className="font-bold">{authUser?.username || "You"}</div>
+                            <div className="font-bold capitalize">Feeling {mood}</div>
                         </div>
 
                         {/* Content */}
@@ -124,8 +164,9 @@ const CreatePage = () => {
                     </div>
 
                     {/* Shadow card */}
-                    <div className="w-[300px] h-[300px] md:w-[400px] h-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-5%] z-[-1]"></div>
+                    <div className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-5%] z-[-1]"></div>
                 </div>
+
 
                 {/* Form with shadow (responsive) */}
                 <div className="relative flex justify-center w-full">
@@ -190,19 +231,24 @@ const CreatePage = () => {
                                     { key: "pink", class: "bg-pink-300" },
                                     { key: "purple", class: "bg-purple-300" },
                                     { key: "green", class: "bg-green-300" },
+                                    { key: "yellow", class: "bg-yellow-300" },
+                                    { key: "orange", class: "bg-orange-300" },
+                                    { key: "red", class: "bg-red-300" },
+                                    { key: "teal", class: "bg-teal-300" },
+                                    { key: "lime", class: "bg-lime-300" },
+                                    { key: "indigo", class: "bg-indigo-300" },
                                 ].map(({ key, class: bgClass }) => (
                                     <button
                                         type="button"
                                         key={key}
                                         onClick={() => setColor(key)}
-                                        className={`w-10 h-10 md:w-12 md:h-12 rounded-xl border-4 transition ${bgClass} ${color === key
-                                            ? "border-gray-900 scale-105"
-                                            : "border-transparent"
+                                        className={`w-10 h-10 md:w-12 md:h-12 rounded-xl border-4 transition ${bgClass} ${color === key ? "border-gray-900 scale-105" : "border-transparent"
                                             }`}
                                     />
                                 ))}
                             </div>
                         </div>
+
 
                         {/* Submit button */}
                         <button

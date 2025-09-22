@@ -76,16 +76,31 @@ const BrowsePage = () => {
                             >
                                 {/* Header */}
                                 <div
-                                    className={`flex items-center justify-between px-[20px] rounded-xl text-sm md:text-lg ${t.color === "blue" ? "bg-blue-800" :
-                                        t.color === "pink" ? "bg-pink-800" :
-                                            t.color === "purple" ? "bg-purple-800" :
-                                                t.color === "green" ? "bg-green-800" : ""
+                                    className={`flex items-center justify-between px-[20px] rounded-xl text-sm md:text-lg ${t.color === "blue"
+                                        ? "bg-blue-800 text-black"
+                                        : t.color === "pink"
+                                            ? "bg-pink-800 text-black"
+                                            : t.color === "purple"
+                                                ? "bg-purple-800 text-black"
+                                                : t.color === "green"
+                                                    ? "bg-green-800 text-black"
+                                                    : t.color === "yellow"
+                                                        ? "bg-yellow-800 text-black"
+                                                        : t.color === "orange"
+                                                            ? "bg-orange-800 text-black"
+                                                            : t.color === "red"
+                                                                ? "bg-red-800 text-black"
+                                                                : t.color === "teal"
+                                                                    ? "bg-teal-800 text-black"
+                                                                    : t.color === "lime"
+                                                                        ? "bg-lime-800 text-black"
+                                                                        : t.color === "indigo"
+                                                                            ? "bg-indigo-800 text-black"
+                                                                            : "bg-gray-800 text-black"
                                         }`}
                                 >
-                                    <div className="font-bold">{t.posterId.username}</div>
-                                    <div className="font-bold ">
-                                        Feeling {t.mood}
-                                    </div>
+                                    <div className="font-bold">{t.posterId?.username || "You"}</div>
+                                    <div className="font-bold capitalize">Feeling {t.mood}</div>
                                 </div>
 
                                 {/* Content */}

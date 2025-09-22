@@ -55,71 +55,94 @@ const BrowsePage = () => {
             </h1>
 
             {/* Cards list */}
-            <div className="flex flex-col gap-15 max-w-md md:max-w-2xl z-4">
+            <div className="flex flex-col gap-20 max-w-md md:max-w-2xl z-4">
                 {loading ? (
                     <p className="text-gray-700 bungee-regular">Loading thoughts...</p>
                 ) : posts.length === 0 ? (
                     <p className="text-gray-700 bungee-regular">No thoughts yet.</p>
                 ) : (
                     posts.map((t: Thought) => (
-                        <div key={t._id} className="relative flex justify-center mb-10">
-                            {/* Emotion image */}
-                            <img
-                                src={`/assets/emotions/${t.mood}.png`}
-                                className="absolute z-3 right-[-50%] top-[-18%] md:right-[-210px] md:top-[-100px] scale-[2]"
-                                alt={t.mood}
-                            />
+                        <div key={t._id} className="w-[300px] md:w-[400px] ">
+                            {/* Main Card wrapper */}
+                            <div className="relative w-full">
+                                {/* Shadow Card */}
+                                <div className="absolute left-[-5%] bottom-[-5%] w-full bg-black rounded-xl z-0 h-full"></div>
 
-                            {/* Card */}
-                            <div
-                                className={`w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-${t.color}-300 rounded-xl relative z-2 p-5 text-black bungee-regular flex flex-col`}
-                            >
-                                {/* Header */}
+                                {/* Emotion image */}
+                                <img
+                                    src={`/assets/emotions/${t.mood}.png`}
+                                    className="absolute z-20 right-[-50%] top-[-18%] md:right-[-210px] md:top-[-100px] scale-[2]"
+                                    alt={t.mood}
+                                />
+
+                                {/* Main Card */}
                                 <div
-                                    className={`flex items-center justify-between px-[20px] rounded-xl text-sm md:text-lg ${t.color === "blue"
-                                        ? "bg-blue-800 text-black"
+                                    className={`relative z-10 w-full rounded-xl p-5 flex flex-col bungee-regular ${t.color === "blue"
+                                        ? "bg-blue-300 text-black"
                                         : t.color === "pink"
-                                            ? "bg-pink-800 text-black"
+                                            ? "bg-pink-300 text-black"
                                             : t.color === "purple"
-                                                ? "bg-purple-800 text-black"
+                                                ? "bg-purple-300 text-black"
                                                 : t.color === "green"
-                                                    ? "bg-green-800 text-black"
+                                                    ? "bg-green-300 text-black"
                                                     : t.color === "yellow"
-                                                        ? "bg-yellow-800 text-black"
+                                                        ? "bg-yellow-300 text-black"
                                                         : t.color === "orange"
-                                                            ? "bg-orange-800 text-black"
+                                                            ? "bg-orange-300 text-black"
                                                             : t.color === "red"
-                                                                ? "bg-red-800 text-black"
+                                                                ? "bg-red-300 text-black"
                                                                 : t.color === "teal"
-                                                                    ? "bg-teal-800 text-black"
+                                                                    ? "bg-teal-300 text-black"
                                                                     : t.color === "lime"
-                                                                        ? "bg-lime-800 text-black"
+                                                                        ? "bg-lime-300 text-black"
                                                                         : t.color === "indigo"
-                                                                            ? "bg-indigo-800 text-black"
-                                                                            : "bg-gray-800 text-black"
+                                                                            ? "bg-indigo-300 text-black"
+                                                                            : "bg-gray-300 text-black"
                                         }`}
                                 >
-                                    <div className="font-bold">{t.posterId?.username || "You"}</div>
-                                    <div className="font-bold capitalize">Feeling {t.mood}</div>
-                                </div>
+                                    {/* Header */}
+                                    <div
+                                        className={`flex items-center justify-between px-[20px] rounded-xl text-sm md:text-lg ${t.color === "blue"
+                                            ? "bg-blue-800 text-black"
+                                            : t.color === "pink"
+                                                ? "bg-pink-800 text-black"
+                                                : t.color === "purple"
+                                                    ? "bg-purple-800 text-black"
+                                                    : t.color === "green"
+                                                        ? "bg-green-800 text-black"
+                                                        : t.color === "yellow"
+                                                            ? "bg-yellow-800 text-black"
+                                                            : t.color === "orange"
+                                                                ? "bg-orange-800 text-black"
+                                                                : t.color === "red"
+                                                                    ? "bg-red-800 text-black"
+                                                                    : t.color === "teal"
+                                                                        ? "bg-teal-800 text-black"
+                                                                        : t.color === "lime"
+                                                                            ? "bg-lime-800 text-black"
+                                                                            : t.color === "indigo"
+                                                                                ? "bg-indigo-800 text-black"
+                                                                                : "bg-gray-800 text-black"
+                                            }`}
+                                    >
+                                        <div className="font-bold">{t.posterId?.username || "You"}</div>
+                                        <div className="font-bold capitalize">Feeling {t.mood}</div>
+                                    </div>
 
-                                {/* Content */}
-                                <div className="mt-6 md:mt-10 text-xs md:text-sm flex-1 overflow-y-auto break-words">
-                                    {t.content}
-                                </div>
+                                    {/* Content */}
+                                    <div className="mt-6 md:mt-10 text-xs md:text-sm break-words whitespace-pre-wrap">
+                                        {t.content}
+                                    </div>
 
-                                {/* Date */}
-                                <div className="text-sm text-gray-700 mt-4 italic">
-                                    {formatDate(t.createdAt)}
+                                    {/* Date */}
+                                    <div className="text-sm text-gray-700 mt-4 italic">{formatDate(t.createdAt)}</div>
                                 </div>
                             </div>
-
-                            {/* Shadow card */}
-                            <div className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-5%] z-0"></div>
                         </div>
                     ))
                 )}
             </div>
+
         </div>
     );
 };

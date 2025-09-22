@@ -89,7 +89,7 @@ const CreatePage = () => {
             </h1>
 
             <div className="z-1 relative flex flex-col gap-10 items-center">
-                {/* Live Preview (fixed 400px) */}
+                {/* Live Preview (dynamic height) */}
                 <div className="relative flex justify-center">
                     {/* Emotion image */}
                     <img
@@ -100,7 +100,7 @@ const CreatePage = () => {
 
                     {/* Card */}
                     <div
-                        className={`w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-xl relative z-10 p-5 flex flex-col bungee-regular ${color === "blue"
+                        className={`w-[300px] md:w-[400px] min-h-[400px] rounded-xl relative z-10 p-5 flex flex-col bungee-regular ${color === "blue"
                             ? "bg-blue-300 text-black"
                             : color === "pink"
                                 ? "bg-pink-300 text-black"
@@ -153,7 +153,7 @@ const CreatePage = () => {
                         </div>
 
                         {/* Content */}
-                        <div className="mt-6 md:mt-10 text-xs md:text-sm flex-1 overflow-y-auto break-words whitespace-pre-wrap">
+                        <div className="mt-6 md:mt-10 text-xs md:text-sm break-words whitespace-pre-wrap flex-1 overflow-y-auto">
                             {thought || "Your thought will appear here..."}
                         </div>
 
@@ -163,9 +163,11 @@ const CreatePage = () => {
                         </div>
                     </div>
 
+
                     {/* Shadow card */}
-                    <div className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-5%] z-[-1]"></div>
+                    <div className="absolute left-[-5%] top-[5%] w-[300px] md:w-[400px] bg-black rounded-xl z-[-1] top-0 h-full"></div>
                 </div>
+
 
 
                 {/* Form with shadow (responsive) */}
@@ -178,7 +180,7 @@ const CreatePage = () => {
                         {/* Thought input */}
                         <textarea
                             value={thought}
-                            maxLength={430}
+                            maxLength={600}
                             onChange={(e) => setThought(e.target.value)}
                             placeholder="What's on your mind?"
                             className="w-full min-h-[100px] md:min-h-[120px] p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-700 text-gray-900 placeholder-gray-500 text-base md:text-base"

@@ -5,27 +5,28 @@ import { useRouter } from "next/navigation";
 import useAuthStore from "@/utils/zustand/useAuthUserStore";
 import usePostStore from "@/utils/zustand/usePostStore";
 
-type Thought = {
-    _id: string;
-    content: string;
-    createdAt: string;
-    mood: string;
-    posterId: {
-        _id: string;
-        username: string;
-    };
-};
-
+// Format date like "Sept 18, 2025 - 10:30 AM"
 const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-    }).replace(",", "");
+    return date
+        .toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        })
+        .replace(",", "");
+};
+
+type Thought = {
+    _id: string;
+    posterId: { _id: string; username: string };
+    content: string;
+    mood: "angry" | "confused" | "excited" | "happy" | "sad" | "scared";
+    color: "blue" | "pink" | "purple" | "green";
+    createdAt: string;
 };
 
 const ProfilePage = () => {
@@ -33,36 +34,32 @@ const ProfilePage = () => {
     const { authUser, getAuthUserFunction } = useAuthStore();
     const { posts, getAllPost } = usePostStore();
 
+    const [loading, setLoading] = useState(true);
     const [icons, setIcons] = useState<Record<string, "pin" | "clip">>({});
-    const [loading, setLoading] = useState<boolean>(true); // Local loading state for posts
 
-    // Fetch auth user on mount
+    // Fetch auth user
     useEffect(() => {
         getAuthUserFunction();
     }, []);
 
     // Redirect if not logged in
     useEffect(() => {
-        if (!authUser) {
-            router.push("/login");
-        }
+        if (!authUser) router.push("/login");
     }, [authUser]);
 
-    // Fetch posts only if store has none
+    // Fetch posts
     useEffect(() => {
         const fetchPosts = async () => {
-            if (authUser && posts.length === 0) {
-                setLoading(true); // Set loading to true when fetching posts
-                await getAllPost(); // Fetch posts asynchronously
-                setLoading(false); // Set loading to false after fetching
-            } else {
-                setLoading(false); // If posts are already fetched, set loading to false
+            if (authUser) {
+                setLoading(true);
+                await getAllPost();
+                setLoading(false);
             }
         };
         fetchPosts();
-    }, [authUser, posts.length, getAllPost]);
+    }, [authUser, getAllPost]);
 
-    // Assign random icons whenever posts change
+    // Random icons for posts
     useEffect(() => {
         if (posts.length > 0) {
             const newIcons: Record<string, "pin" | "clip"> = {};
@@ -73,127 +70,86 @@ const ProfilePage = () => {
         }
     }, [posts]);
 
-    // Filter only this user’s posts
+    // Filter user posts
     const userPosts = posts.filter(
-        (post: Thought) => post?.posterId?._id === authUser?._id
+        (post: Thought) => post.posterId._id === authUser?._id
     );
 
     return (
-        <div className="min-h-screen bg-[#FED6B4] flex flex-col items-center py-8 px-4">
+        <div className="min-h-screen flex flex-col items-center py-8 px-4 pb-[100px] overflow-x-hidden">
+            {/* Background */}
+            <img
+                src="/assets/test/bg1.png"
+                className="w-full h-full object-cover fixed top-0 left-0"
+                alt="background"
+            />
 
-            {/* Designs */}
-            <div className="fixed inset-0 z-0">
-                <img src="/assets/landing/landing1.png" className="absolute right-0" />
-                <img src="/assets/landing/landing2.png" className="absolute left-0" />
-                <img src="/assets/landing/landing3.png" className="absolute left-[-5px] bottom-0" />
-                <img src="/assets/landing/landing4.png" className="absolute right-0 bottom-0" />
-                <img src="/assets/landing/landing5.png" className="absolute left-0 bottom-0" />
-                <img src="/assets/landing/landing6.png" className="absolute right-0 top-0" />
-            </div>
-
-            <h1 className="text-[64px] font-bold mb-8 text-black italianno-bold z-1">
+            <h1 className="text-[32px] font-bold mb-8 text-black bungee-regular z-4">
                 Profile
             </h1>
 
-            {/* Profile Header */}
+            {/* Profile Card */}
             {authUser && (
-                <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center space-y-4 w-md max-w-3xl mb-10">
-                    <h1 className="text-3xl text-black italianno-bold">
-                        @{authUser.username}
-                    </h1>
-                    <p className="text-gray-600">{authUser.email}</p>
-                    <p className="text-gray-500 text-sm">
-                        Joined {new Date(authUser.createdAt).toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-700 max-w-md">
-                        {authUser.bio || "No bio yet..."}
-                    </p>
+                <div className="relative flex justify-center mb-10">
+                    <div className="w-[300px] md:w-[400px] bg-orange-300 rounded-xl relative z-3 p-6 text-black bungee-regular flex flex-col gap-3 items-center text-center">
+                        <h2 className="text-2xl md:text-3xl">@{authUser.username}</h2>
+                        <p className="text-gray-700 text-sm md:text-base">{authUser.email}</p>
+                        <p className="text-gray-600 text-xs md:text-sm">
+                            Joined {new Date(authUser.createdAt).toLocaleDateString()}
+                        </p>
+                        <p className="text-gray-800 text-sm md:text-base">
+                            {authUser.bio || "No bio yet..."}
+                        </p>
+                    </div>
+                    <div className="w-[300px] md:w-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-10%] z-0 h-full"></div>
                 </div>
             )}
 
-            {/* Notes Column */}
-            <div className="flex flex-col gap-8 w-full max-w-md mx-auto">
+            {/* User Posts */}
+            <div className="flex flex-col gap-10 max-w-md md:max-w-2xl z-4">
                 {loading ? (
-                    // Skeleton loading UI
-                    Array.from({ length: 2 }).map((_, idx) => (
-                        <div
-                            key={idx}
-                            className="bg-white rounded-xl shadow-lg relative skeleton"
-                        >
-                            {/* Top header skeleton */}
-                            <div className="bg-gray-200 h-8 w-full rounded-t-xl"></div>
-
-                            {/* Whole body skeleton */}
-                            <div className="h-[200px] bg-gray-100 rounded-b-xl"></div>
-                        </div>
-                    ))
+                    <p className="text-gray-700 bungee-regular">Loading posts...</p>
                 ) : userPosts.length === 0 ? (
-                    // Message when there are no posts available
-                    <div className="text-gray-500 text-lg text-center">
-                        No posts available yet. Start creating!
-                    </div>
+                    <p className="text-gray-700 bungee-regular text-center">
+                        No posts yet. Start creating!
+                    </p>
                 ) : (
-                    // Render the user's posts when available
-                    userPosts.map((thought: Thought) => (
-                        <div
-                            key={thought._id}
-                            className="bg-white rounded-xl shadow-lg transition-shadow duration-200 relative"
-                        >
-                            {/* Top yellow header */}
-                            <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl relative">
-                                {icons[thought._id] === "pin" ? (
-                                    <div className="w-[80px] h-[80px] absolute right-[0] top-[-150%]">
-                                        <img src="/assets/browse/pin.webp" />
-                                    </div>
-                                ) : icons[thought._id] === "clip" ? (
-                                    <div className="w-[150px] h-[150px] absolute right-[0%] top-[-85%]">
-                                        <img src="/assets/browse/clip.png" />
-                                    </div>
-                                ) : null}
-                            </div>
+                    userPosts.map((t: Thought) => (
+                        <div key={t._id} className="relative flex justify-center mb-10">
+                            {/* Emotion image */}
+                            <img
+                                src={`/assets/emotions/${t.mood}.png`}
+                                className="absolute z-3 right-[-50%] top-[-18%] md:right-[-210px] md:top-[-100px] scale-[2]"
+                                alt={t.mood}
+                            />
 
-                            {/* Content of the thought */}
-                            <div className="px-6 py-6 bg-[#FFF8ED] rounded-b-xl">
-                                {/* Mood */}
-                                <div className="text-[48px] mb-2 text-center">{thought.mood}</div>
-
-                                {/* Mood Description */}
-                                <div className="text-gray-500 mb-4 text-center">
-                                    {(() => {
-                                        switch (thought.mood) {
-                                            case "😊":
-                                                return "is feeling Happy";
-                                            case "😔":
-                                                return "is feeling Sad";
-                                            case "😡":
-                                                return "is feeling Angry";
-                                            case "😌":
-                                                return "is feeling Relaxed";
-                                            case "🤔":
-                                                return "is feeling Thoughtful";
-                                            case "😞":
-                                                return "is feeling Disappointed";
-                                            default:
-                                                return "is feeling Neutral";
-                                        }
-                                    })()}
+                            {/* Post Card */}
+                            <div
+                                className={`w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-${t.color}-300 rounded-xl relative z-2 p-5 text-black bungee-regular flex flex-col`}
+                            >
+                                {/* Header */}
+                                <div
+                                    className={`flex items-center justify-between bg-${t.color}-500 px-5 rounded-xl text-sm md:text-lg`}
+                                >
+                                    <span className="font-bold">{t.posterId.username}</span>
+                                    <span className={`font-bold text-${t.color}-800 capitalize`}>
+                                        Feeling {t.mood}
+                                    </span>
                                 </div>
 
                                 {/* Content */}
-                                <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-4 w-full">
-                                    {thought.content}
+                                <div className="mt-6 md:mt-10 text-xs md:text-sm flex-1 overflow-y-auto break-words">
+                                    {t.content}
                                 </div>
 
-                                {/* User Info and Date */}
-                                <div className="flex justify-between items-center text-gray-500 text-sm w-full">
-                                    <span className="text-[40px] text-gray-800 font-semibold italianno-bold">
-                                        {thought?.posterId?.username ?? "Anonymous"}
-                                    </span>
-                                    <span className="text-[32px] text-gray-700 italianno-bold mt-2">
-                                        {formatDate(thought.createdAt)}
-                                    </span>
+                                {/* Date */}
+                                <div className="text-sm text-gray-700 mt-4 italic">
+                                    {formatDate(t.createdAt)}
                                 </div>
                             </div>
+
+                            {/* Shadow card */}
+                            <div className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-5%] z-0"></div>
                         </div>
                     ))
                 )}

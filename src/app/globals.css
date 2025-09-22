@@ -25,6 +25,12 @@
   font-style: bold;
 }
 
+.bungee-regular {
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* E5E5E5 background */
 /* #FFFFFF white */
 /* C4C4C4 dull */

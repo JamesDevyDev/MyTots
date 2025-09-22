@@ -20,12 +20,12 @@ const formatDate = (date: Date) =>
 
 // Mood → description map
 const moodText: Record<string, string> = {
-    "😊": "is feeling Happy",
-    "😔": "is feeling Sad",
-    "😡": "is feeling Angry",
-    "😌": "is feeling Relaxed",
-    "🤔": "is feeling Thoughtful",
-    "😞": "is feeling Disappointed",
+    angry: "is feeling Angry",
+    confused: "is feeling Confused",
+    excited: "is feeling Excited",
+    happy: "is feeling Happy",
+    sad: "is feeling Sad",
+    scared: "is feeling Scared",
 };
 
 const CreatePage = () => {
@@ -34,7 +34,8 @@ const CreatePage = () => {
     const router = useRouter();
 
     const [thought, setThought] = useState("");
-    const [mood, setMood] = useState("😊");
+    const [mood, setMood] = useState<keyof typeof moodText>("happy"); // ✅ default happy
+    const [color, setColor] = useState("blue");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const currentDate = new Date();
@@ -60,102 +61,181 @@ const CreatePage = () => {
             posterId: authUser?._id,
             content: thought,
             mood,
+            color,
         });
 
         if (data?.error) {
             setError(data.error);
         } else {
             setThought("");
-            setMood("😊");
+            setMood("happy");
+            setColor("blue");
         }
 
         setLoading(false);
     };
 
     return (
-        <div className="w-full min-h-screen bg-[#FED6B4] flex flex-col items-center px-4 py-8">
+        <div className="min-h-screen flex flex-col items-center py-8 px-4 pb-[100px] overflow-x-hidden">
+            {/* background */}
+            <img
+                src="/assets/test/bg2.png"
+                className="w-full h-full object-cover fixed top-0 left-0"
+                alt="background"
+            />
 
-            {/* Designs */}
-            <div className="fixed inset-0 z-0">
-                <img src="/assets/landing/landing1.png" className="absolute right-0" />
-                <img src="/assets/landing/landing2.png" className="absolute left-0" />
-                <img src="/assets/landing/landing3.png" className="absolute left-[-5px] bottom-0" />
-                <img src="/assets/landing/landing4.png" className="absolute right-0 bottom-0" />
-                <img src="/assets/landing/landing5.png" className="absolute left-0 bottom-0" />
-                <img src="/assets/landing/landing6.png" className="absolute right-0 top-0" />
-            </div>
-
-            <h1 className="text-[64px] font-bold mb-6 text-black italianno-bold z-1">
-                Create a Thought
+            <h1 className="text-[32px] font-bold mb-8 text-black bungee-regular z-4">
+                Create Thought
             </h1>
 
-            <div className="w-full max-w-2xl space-y-6 z-1">
-                {/* Live Preview */}
-                <div className="bg-white rounded-xl shadow-lg">
-                    <div className="bg-[#FFDA5C] h-8 w-full rounded-t-xl"></div>
-                    <div className="px-4 py-6 bg-[#FFF8ED] rounded-b-xl flex flex-col items-center text-center">
-                        <div className="text-[48px] mb-2">{mood}</div>
-                        <div className="text-gray-500 mb-2">{moodText[mood]}</div>
-                        <div className="text-gray-900 font-bold text-lg whitespace-pre-wrap break-words mb-2 w-[90%]">
-                            {thought || "Your thought will appear here..."}
-                        </div>
-                        <span className="text-[32px] text-gray-700 italianno-bold mt-2">
-                            {formatDate(currentDate)}
-                        </span>
-                    </div>
-                </div>
-
-                {/* Form */}
-                <form
-                    onSubmit={handleSubmit}
-                    className="bg-[#FFF8ED] rounded-xl shadow-md p-6 space-y-6"
-                >
-                    <textarea
-                        value={thought}
-                        onChange={(e) => setThought(e.target.value)}
-                        placeholder="What's on your mind?"
-                        className="w-full h-40 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-700 text-gray-900 placeholder-gray-500"
+            <div className="z-1 relative flex flex-col gap-10 items-center">
+                {/* Live Preview (fixed 400px) */}
+                <div className="relative flex justify-center">
+                    {/* Emotion image */}
+                    <img
+                        src={`/assets/emotions/${mood}.png`}
+                        className="absolute z-20 right-[-50%] top-[-18%] md:right-[-210px] md:top-[-100px] scale-[2]"
+                        alt={mood}
                     />
 
-                    <div>
-                        <label className="block text-gray-800 font-medium mb-2 italiana-bold">
-                            Mood
-                        </label>
-                        <select
-                            value={mood}
-                            onChange={(e) => setMood(e.target.value)}
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700 text-gray-900 italiana-bold"
+                    {/* Card */}
+                    <div
+                        className={`w-[300px] h-[300px] md:w-[400px] h-[400px] bg-${color}-300 rounded-xl relative z-10 p-5 text-black bungee-regular flex flex-col`}
+                    >
+                        {/* Header */}
+                        <div
+                            className={`flex items-center justify-between bg-${color}-500 px-[25px] rounded-xl text-sm md:text-lg`}
                         >
-                            {Object.keys(moodText).map((emoji) => (
-                                <option key={emoji} value={emoji}>
-                                    {emoji} {moodText[emoji].replace("is feeling ", "")}
-                                </option>
-                            ))}
-                        </select>
+                            <div className=" font-bold">{authUser?.username || "You"}</div>
+                            <div className={` font-bold text-${color}-800 capitalize`}>
+                                Feeling {mood}
+                            </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="mt-6 md:mt-10 text-xs md:text-sm flex-1 overflow-y-auto break-words">
+                            {thought || "Your thought will appear here..."}
+                        </div>
+
+                        {/* Date */}
+                        <div className="text-sm text-gray-700 mt-4 italic">
+                            {formatDate(currentDate)}
+                        </div>
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className={`w-full py-3 font-semibold rounded-lg transition flex justify-center items-center italiana-bold ${loading
-                            ? "bg-gray-700 text-white cursor-not-allowed"
-                            : "bg-gray-900 text-white hover:bg-gray-800"
-                            }`}
-                    >
-                        {loading ? (
-                            <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-                        ) : (
-                            "Post Thought"
-                        )}
-                    </button>
+                    {/* Shadow card */}
+                    <div className="w-[300px] h-[300px] md:w-[400px] h-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-5%] z-[-1]"></div>
+                </div>
 
-                    {error && (
-                        <p className="text-red-600 text-center font-medium mt-2">{error}</p>
-                    )}
-                </form>
+                {/* Form with shadow (responsive) */}
+                <div className="relative flex justify-center w-full">
+                    {/* Actual Form */}
+                    <form
+                        onSubmit={handleSubmit}
+                        className="w-[300px] md:w-[400px] bg-orange-300 rounded-xl relative z-10 p-4 sm:p-6 text-black bungee-regular flex flex-col gap-6"
+                    >
+                        {/* Thought input */}
+                        <textarea
+                            value={thought}
+                            maxLength={430}
+                            onChange={(e) => setThought(e.target.value)}
+                            placeholder="What's on your mind?"
+                            className="w-full min-h-[100px] md:min-h-[120px] p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-700 text-gray-900 placeholder-gray-500 text-xs md:text-sm"
+                        />
+
+                        {/* Mood select */}
+                        <div>
+                            <label className="block text-gray-800 font-medium mb-4 bungee-regular">
+                                Mood
+                            </label>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                {[
+                                    { mood: "angry", img: "/assets/emotions/angry.png" },
+                                    { mood: "confused", img: "/assets/emotions/confused.png" },
+                                    { mood: "excited", img: "/assets/emotions/excited.png" },
+                                    { mood: "happy", img: "/assets/emotions/happy.png" },
+                                    { mood: "sad", img: "/assets/emotions/sad.png" },
+                                    { mood: "scared", img: "/assets/emotions/scared.png" },
+                                ].map(({ mood: moodOption, img }) => (
+                                    <button
+                                        type="button"
+                                        key={moodOption}
+                                        onClick={() => setMood(moodOption)}
+                                        className={`flex flex-col items-center p-3 rounded-xl border overflow-hidden transition ${mood === moodOption
+                                            ? "border-gray-900 bg-gray-100"
+                                            : "border-gray-300"
+                                            }`}
+                                    >
+                                        <img
+                                            src={img}
+                                            alt={moodOption}
+                                            className="h-10  object-contain scale-[4.7]"
+                                        />
+                                        <span className="mt-2 capitalize text-gray-800 text-xs sm:text-sm">
+                                            {moodOption}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Color select */}
+                        <div>
+                            <label className="block text-gray-800 font-medium mb-4 bungee-regular">
+                                Card Color
+                            </label>
+                            <div className="flex gap-3 sm:gap-4 flex-wrap">
+                                {[
+                                    { key: "blue", class: "bg-blue-300" },
+                                    { key: "pink", class: "bg-pink-300" },
+                                    { key: "purple", class: "bg-purple-300" },
+                                    { key: "green", class: "bg-green-300" },
+                                ].map(({ key, class: bgClass }) => (
+                                    <button
+                                        type="button"
+                                        key={key}
+                                        onClick={() => setColor(key)}
+                                        className={`w-10 h-10 md:w-12 md:h-12 rounded-xl border-4 transition ${bgClass} ${color === key
+                                            ? "border-gray-900 scale-105"
+                                            : "border-transparent"
+                                            }`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Submit button */}
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={`w-full py-2 sm:py-3 font-semibold rounded-lg transition flex justify-center items-center bungee-regular ${loading
+                                ? "bg-gray-700 text-white cursor-not-allowed"
+                                : "bg-gray-900 text-white hover:bg-gray-800"
+                                }`}
+                        >
+                            {loading ? (
+                                <div className="w-5 h-5 sm:w-6 sm:h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                            ) : (
+                                "Post Thought"
+                            )}
+                        </button>
+
+                        {error && (
+                            <p className="text-red-600 text-center font-medium mt-2">{error}</p>
+                        )}
+                    </form>
+
+                    {/* Shadow card */}
+                    <div className="w-[300px] md:w-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-4%] z-0 h-full"></div>
+                </div>
+
+
+
+
             </div>
         </div>
     );
+
 };
 
 export default CreatePage;

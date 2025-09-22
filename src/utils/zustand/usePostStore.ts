@@ -3,7 +3,7 @@ import { create } from 'zustand'
 interface PostStore {
     posts: any[];
     getAllPost: () => Promise<void>;
-    addNewPost: ({ posterId, content, mood }: { posterId: string, content: string, mood: string }) => Promise<any>;
+    addNewPost: ({ posterId, content, mood, color }: { posterId: string, content: string, mood: string, color: string }) => Promise<any>;
 }
 
 const usePostStore = create<PostStore>((set, get) => ({
@@ -19,14 +19,14 @@ const usePostStore = create<PostStore>((set, get) => ({
             console.log(error)
         }
     },
-    addNewPost: async ({ posterId, content, mood }: { posterId: string, content: string, mood: string }) => {
+    addNewPost: async ({ posterId, content, mood, color }: { posterId: string, content: string, mood: string, color: string }) => {
         try {
             let res = await fetch('/api/post', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ posterId, content, mood })
+                body: JSON.stringify({ posterId, content, mood, color })
             })
             const data = await res.json()
             if (!res.ok) {

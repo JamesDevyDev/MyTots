@@ -1,78 +1,83 @@
-'use client'
+'use client';
 
-import useAuthStore from "@/utils/zustand/useAuthUserStore";
 import React, { useEffect } from "react";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+import useAuthStore from "@/utils/zustand/useAuthUserStore";
 import { Menu, User, BookOpen, PlusSquare, Settings, LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
-    const { authUser, getAuthUserFunction, LogoutFunction } = useAuthStore()
-    const router = useRouter()
+    const { authUser, getAuthUserFunction, LogoutFunction } = useAuthStore();
+    const router = useRouter();
+    const pathname = usePathname(); // current route
 
     useEffect(() => {
-        getAuthUserFunction()
-    }, [])
+        getAuthUserFunction();
+    }, []);
 
-    // helper function to close sidebar
+    // Close sidebar helper
     const closeDrawer = () => {
-        const drawer = document.getElementById("my-drawer") as HTMLInputElement
-        if (drawer) drawer.checked = false
-    }
+        const drawer = document.getElementById("my-drawer") as HTMLInputElement;
+        if (drawer) drawer.checked = false;
+    };
+
+    // Utility to check if link is active
+    const isActive = (path: string) => pathname === path;
 
     return (
         <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content px-[25px] py-[25px] absolute z-[2] fixed">
-                {/* Burger menu button */}
+
+            {/* Burger button */}
+            <div className="drawer-content px-6 py-6 fixed z-[99999]">
                 <label
                     htmlFor="my-drawer"
                     className="btn btn-ghost drawer-button bg-black/70"
                 >
-                    <Menu size={28} color={"white"} />
+                    <Menu size={28} color="white" />
                 </label>
             </div>
 
-            {/* Sidebar */}
+            {/* Sidebar content */}
             <div className="drawer-side">
-                <label
-                    htmlFor="my-drawer"
-                    aria-label="close sidebar"
-                    className="drawer-overlay"
-                ></label>
-                <div className="bg-[#C4C4C4] text-black min-h-full w-60 p-4 flex flex-col">
-                    <Link href='/' className='w-full h-[50px] text-center italiana-bold text-[35px]'>
+                <label htmlFor="my-drawer" className="drawer-overlay"></label>
+                <div className="bg-[#C4C4C4] min-h-full w-60 p-4 flex flex-col text-black bungee-regular">
+
+                    {/* Logo */}
+                    <Link
+                        href="/"
+                        className="w-full h-[50px] text-center text-[35px] mb-6"
+                        onClick={closeDrawer}
+                    >
                         MyTots
                     </Link>
 
-                    {/* Top menu */}
-                    <ul className="menu space-y-2 flex-1 w-full italiana-bold">
-                        {authUser ? (
-                            <li className="mb-4">
-                                <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-100 w-full">
-                                    <User size={24} />
-                                    <span className="font-semibold">{authUser?.username}</span>
-                                </div>
-                            </li>
-                        ) : null}
+                    {/* User info */}
+                    {authUser && (
+                        <div className="mb-6 flex items-center gap-3 p-3 rounded-lg bg-gray-100">
+                            <User size={24} />
+                            <span className="font-semibold">{authUser.username}</span>
+                        </div>
+                    )}
 
-                        {/* Menu items */}
+                    {/* Menu items */}
+                    <ul className="flex-1 space-y-2 text-sm">
                         <li>
                             <Link
                                 href="/main/browse"
                                 onClick={closeDrawer}
-                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                                className={`flex items-center gap-2 p-3 rounded-lg  transition w-full ${isActive("/main/browse") ? "bg-gray-300 font-bold" : "hover:bg-gray-200"
+                                    }`}
                             >
                                 <BookOpen size={20} /> Browse Thoughts
                             </Link>
                         </li>
-
-
                         <li>
                             <Link
                                 href="/main/create"
                                 onClick={closeDrawer}
-                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                                className={`flex items-center gap-2 p-3 rounded-lg transition w-full ${isActive("/main/create") ? "bg-gray-300 font-bold" : "hover:bg-gray-200"
+                                    }`}
                             >
                                 <PlusSquare size={20} /> Create Thought
                             </Link>
@@ -81,7 +86,8 @@ const Sidebar = () => {
                             <Link
                                 href="/main/profile"
                                 onClick={closeDrawer}
-                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                                className={`flex items-center gap-2 p-3 rounded-lg transition w-full ${isActive("/main/profile") ? "bg-gray-300 font-bold" : "hover:bg-gray-200"
+                                    }`}
                             >
                                 <User size={20} /> My Profile
                             </Link>
@@ -90,53 +96,55 @@ const Sidebar = () => {
                             <Link
                                 href="/main/settings"
                                 onClick={closeDrawer}
-                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
+                                className={`flex items-center gap-2 p-3 rounded-lg transition w-full ${isActive("/main/settings") ? "bg-gray-300 font-bold" : "hover:bg-gray-200"
+                                    }`}
                             >
                                 <Settings size={20} /> Settings
                             </Link>
                         </li>
 
-
-
+                        {/* Login/Register if not authenticated */}
+                        {!authUser && (
+                            <>
+                                <li>
+                                    <Link
+                                        href="/login"
+                                        onClick={closeDrawer}
+                                        className={`flex items-center gap-2 p-3 rounded-lg transition w-full ${isActive("/login") ? "bg-gray-300 font-bold" : "hover:bg-gray-200"
+                                            }`}
+                                    >
+                                        <User size={20} /> Login
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/register"
+                                        onClick={closeDrawer}
+                                        className={`flex items-center gap-2 p-3 rounded-lg transition w-full ${isActive("/register") ? "bg-gray-300 font-bold" : "hover:bg-gray-200"
+                                            }`}
+                                    >
+                                        <PlusSquare size={20} /> Register
+                                    </Link>
+                                </li>
+                            </>
+                        )}
                     </ul>
 
-
-                    {/* If user is not logged in you can see this. */}
-                    {!authUser &&
-                        <><li>
-                            <Link
-                                href="/login"
-                                onClick={closeDrawer}
-                                className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                            >
-                                <User size={20} /> Login
-                            </Link>
-                        </li>
-                            <li>
-                                <Link
-                                    href="/register"
-                                    onClick={closeDrawer}
-                                    className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-200 transition w-full"
-                                >
-                                    <PlusSquare size={20} /> Register
-                                </Link>
-                            </li></>
-                    }
-
-                    {/* Logout at the bottom */}
-                    {authUser &&
+                    {/* Logout at bottom */}
+                    {authUser && (
                         <div className="mt-auto">
                             <div
-                                className="flex items-center gap-2 p-3 rounded-lg text-red-600 hover:bg-red-100 transition cursor-pointer w-full"
+                                className="flex items-center gap-2 p-3 rounded-lg text-red-600 hover:bg-red-100 transition cursor-pointer"
                                 onClick={() => {
-                                    LogoutFunction()
-                                    closeDrawer()
-                                    router.push('/')
+                                    LogoutFunction();
+                                    closeDrawer();
+                                    router.push("/");
                                 }}
                             >
                                 <LogOut size={20} /> Logout
                             </div>
-                        </div>}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

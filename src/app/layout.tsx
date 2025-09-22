@@ -52,7 +52,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Italianno&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Italiana&family=Italianno&display=swap" rel="stylesheet" />
       </head>
       <body>
         {children}

@@ -62,7 +62,7 @@ const SettingsPage = () => {
                 {/* Actual Form */}
                 <form
                     onSubmit={handleSubmit}
-                    className="w-[300px] md:w-[400px] bg-orange-300 rounded-xl relative z-3 p-4 sm:p-6 text-black bungee-regular flex flex-col gap-6"
+                    className="w-[300px] md:w-[400px] bg-blue-300 rounded-xl relative z-3 p-4 sm:p-6 text-black bungee-regular flex flex-col gap-6"
                 >
                     {/* Username */}
                     <div>
@@ -104,7 +104,7 @@ const SettingsPage = () => {
                 </form>
 
                 {/* Shadow card */}
-                <div className="w-[300px] md:w-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-4%] z-0 h-full"></div>
+                <div className="w-[300px] md:w-[400px] bg-black rounded-xl absolute left-[-5%] top-[20px] z-0 h-full"></div>
             </div>
         </div>
     );

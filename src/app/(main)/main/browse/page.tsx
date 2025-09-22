@@ -66,7 +66,7 @@ const BrowsePage = () => {
                             {/* Main Card wrapper */}
                             <div className="relative w-full">
                                 {/* Shadow Card */}
-                                <div className="absolute left-[-5%] bottom-[-5%] w-full bg-black rounded-xl z-0 h-full"></div>
+                                <div className="absolute left-[-5%] top-[20px] w-full bg-black rounded-xl z-0 h-full"></div>
 
                                 {/* Emotion image */}
                                 <img

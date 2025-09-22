@@ -153,7 +153,7 @@ const CreatePage = () => {
                         </div>
 
                         {/* Content */}
-                        <div className="mt-6 md:mt-10 text-xs md:text-sm flex-1 overflow-y-auto break-words">
+                        <div className="mt-6 md:mt-10 text-xs md:text-sm flex-1 overflow-y-auto break-words whitespace-pre-wrap">
                             {thought || "Your thought will appear here..."}
                         </div>
 

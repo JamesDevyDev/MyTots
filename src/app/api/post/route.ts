@@ -38,7 +38,15 @@ export const POST = async (req: Request) => {
                 );
             }
         }
-      
+
+        // Check content length
+        if (typeof content !== 'string' || content.length > 600) {
+            return NextResponse.json(
+                { error: "Content must be 600 characters or less." },
+                { status: 400 }
+            );
+        }
+
         const newPost = new Post({ posterId, content, mood, color });
         await newPost.save();
 

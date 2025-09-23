@@ -100,7 +100,7 @@ const CreatePage = () => {
 
                     {/* Card */}
                     <div
-                        className={`w-[300px] md:w-[400px] min-h-[400px] rounded-xl relative z-10 p-5 flex flex-col bungee-regular ${color === "blue"
+                        className={`w-[300px] md:w-[400px] min-h-[200px] rounded-xl relative z-10 p-5 flex flex-col bungee-regular ${color === "blue"
                             ? "bg-blue-300 text-black"
                             : color === "pink"
                                 ? "bg-pink-300 text-black"

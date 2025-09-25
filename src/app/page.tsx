@@ -58,13 +58,13 @@ export default function Home() {
         </h1>
 
         <p
-          className="bungee-regular max-w-xl text-white text-[32px]"
+          className="bungee-regular max-w-xl text-white  text-sm md:text-[32px]"
           style={{
             textShadow: `
-      -3px -3px 0 #000,
-       3px -3px 0 #000,
-      -3px  3px 0 #000,
-       3px  3px 0 #000
+      -1px -1px 0 #000,
+       1px -1px 0 #000,
+      -1px  1px 0 #000,
+       1px  1px 0 #000
     `,
           }}
         >

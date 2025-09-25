@@ -104,7 +104,7 @@ const CreatePage = () => {
 
                     {/* Card */}
                     <div
-                        className={`w-[300px] md:w-[400px] min-h-[400px] rounded-xl relative z-10 p-5 flex flex-col bungee-regular ${color === "blue"
+                        className={`w-[300px] md:w-[400px] min-h-[200px] rounded-xl relative z-10 p-5 flex flex-col bungee-regular ${color === "blue"
                             ? "bg-blue-300 text-black"
                             : color === "pink"
                                 ? "bg-pink-300 text-black"
@@ -169,7 +169,7 @@ const CreatePage = () => {
 
 
                     {/* Shadow card */}
-                    <div className="absolute left-[-5%] top-[5%] w-[300px] md:w-[400px] bg-black rounded-xl z-[-1] top-0 h-full"></div>
+                    <div className="absolute left-[-5%] top-[20px] w-[300px] md:w-[400px] bg-black rounded-xl z-[-1] top-0 h-full"></div>
                 </div>
 
 
@@ -278,7 +278,7 @@ const CreatePage = () => {
                     </form>
 
                     {/* Shadow card */}
-                    <div className="w-[300px] md:w-[400px] bg-black rounded-xl absolute left-[-5%] bottom-[-4%] z-0 h-full"></div>
+                    <div className="w-[300px] md:w-[400px] bg-black rounded-xl absolute left-[-5%] top-[20px] z-0 h-full"></div>
                 </div>
 
 

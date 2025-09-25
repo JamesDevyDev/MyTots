@@ -83,7 +83,7 @@ const ProfilePage = () => {
                             {authUser.bio || "No bio yet..."}
                         </p>
                     </div>
-                    <div className="absolute left-[-5%] bottom-[-10%] w-[300px] md:w-[400px] bg-black rounded-xl z-0 h-full"></div>
+                    <div className="absolute left-[-5%] top-[20px] w-[300px] md:w-[400px] bg-black rounded-xl z-0 h-full"></div>
                 </div>
             )}
 
@@ -100,7 +100,7 @@ const ProfilePage = () => {
                         <div key={t._id} className="relative flex justify-center mb-10 w-[300px] md:w-[400px]">
                             <div className="relative w-full">
                                 {/* Shadow card */}
-                                <div className="absolute left-[-5%] bottom-[-5%] w-full bg-black rounded-xl z-0 h-full"></div>
+                                <div className="absolute left-[-5%] top-[20px] w-full bg-black rounded-xl z-0 h-full"></div>
 
                                 {/* Emotion image */}
                                 <div className='w-[150px] h-[150px] absolute z-20 right-[-70px] md:right-[-80px] top-[-70px] overflow-hidden'>

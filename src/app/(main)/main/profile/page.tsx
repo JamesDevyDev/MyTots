@@ -103,11 +103,15 @@ const ProfilePage = () => {
                                 <div className="absolute left-[-5%] bottom-[-5%] w-full bg-black rounded-xl z-0 h-full"></div>
 
                                 {/* Emotion image */}
-                                <img
-                                    src={`/assets/emotions/${t.mood}.png`}
-                                    className="absolute z-20 right-[-50%] top-[-18%] md:right-[-210px] md:top-[-100px] scale-[2]"
-                                    alt={t.mood}
-                                />
+                                <div className='w-[150px] h-[150px] absolute z-20 right-[-70px] md:right-[-80px] top-[-70px] overflow-hidden'>
+
+                                    <img
+                                        src={`/assets/emotions/${t.mood}.png`}
+                                        className="scale-[4] md:scale-[5] top-[30%] relative"
+                                        alt={t.mood}
+                                    />
+                                </div>
+
 
                                 {/* Post Card */}
                                 <div

@@ -92,11 +92,15 @@ const CreatePage = () => {
                 {/* Live Preview (dynamic height) */}
                 <div className="relative flex justify-center">
                     {/* Emotion image */}
-                    <img
-                        src={`/assets/emotions/${mood}.png`}
-                        className="absolute z-20 right-[-50%] top-[-18%] md:right-[-210px] md:top-[-100px] scale-[2]"
-                        alt={mood}
-                    />
+                    <div className='w-[150px] h-[150px] absolute z-20 right-[-70px] md:right-[-80px] top-[-70px] overflow-hidden'>
+
+                        <img
+                            src={`/assets/emotions/${mood}.png`}
+                            className="scale-[4] md:scale-[5] top-[30%] relative"
+                            alt={mood}
+                        />
+                    </div>
+
 
                     {/* Card */}
                     <div

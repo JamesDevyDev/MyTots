@@ -25,7 +25,7 @@ const useInteractionStore = create<InteractionStore>((set, get) => ({
             console.log(error)
         }
     },
-    addComment: async ({ CommenterId, PostId, comment }: { CommenterId: string, PostId: string, comment: String }) => {
+    addComment: async ({ CommenterId, PostId, comment }: { CommenterId: string, PostId: string, comment: string }) => {
         try {
             let res = await fetch('/api/comment', {
                 method: 'POST',

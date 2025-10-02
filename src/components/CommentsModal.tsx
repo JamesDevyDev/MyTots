@@ -90,7 +90,7 @@ const CommentsModal = ({ post }: CommentsModalProps) => {
           </div>
 
           {/* Comments Section */}
-          <div className="flex-1 overflow-y-auto w-full px-5 py-4 space-y-3">
+          <div className="flex-1 overflow-y-auto w-full px-5 py-4 space-y-3 bg-neutral-800">
             {currentComment?.length > 0 ? (
               currentComment.map((comment: any) => (
                 <div
@@ -113,29 +113,33 @@ const CommentsModal = ({ post }: CommentsModalProps) => {
             )}
           </div>
 
-          {/* Add Comment Box */}
-          <div className="w-full px-5 py-3 border-t flex gap-2">
-            <input
-              type="text"
-              placeholder="Write a comment..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              className="flex-1 border rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:ring focus:ring-blue-300 bg-white"
-            />
-            <button
-              onClick={handleAddComment}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-            >
-              Send
-            </button>
-          </div>
+          {authUser &&
+            <div>
+              {/* Add Comment Box */}
+              < div className="w-full px-5 py-3 border-t flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Write a comment..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  className="flex-1 border rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:ring focus:ring-blue-300 bg-white"
+                />
+                <button
+                  onClick={handleAddComment}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          }
         </div>
 
         {/* Backdrop */}
         <label className="modal-backdrop" htmlFor="comments_modal">
           Close
         </label>
-      </div>
+      </div >
     </>
   );
 };

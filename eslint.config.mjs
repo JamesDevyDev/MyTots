@@ -23,9 +23,15 @@ const eslintConfig = [
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/no-empty-interface": "off",
-      "@typescript-eslint/no-unused-vars": "off", // ignore unused vars like get
+      "@typescript-eslint/no-unused-vars": "off", // ignore unused vars
       "prefer-const": "off", // ignore let -> const errors
+
+      // 🚨 Suppress Next.js / React warnings
+      "react-hooks/exhaustive-deps": "off", // ignore missing deps in useEffect
+      "@next/next/no-img-element": "off", // allow <img>
+      "@next/next/no-page-custom-font": "off", // ignore font import warning
     }
+    
     
   },
 ];

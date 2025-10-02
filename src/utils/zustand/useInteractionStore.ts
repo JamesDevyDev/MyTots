@@ -5,7 +5,7 @@ interface InteractionStore {
     currentComment: any[];
 
     getComments: ({ PostId }: { PostId: string }) => Promise<any>
-    addComment: ({ CommenterId, PostId, comment }: { CommenterId: string, PostId: string, comment: String }) => Promise<any>
+    addComment: ({ CommenterId, PostId, comment }: { CommenterId: string, PostId: string, comment: string }) => Promise<any>
 }
 
 const useInteractionStore = create<InteractionStore>((set, get) => ({

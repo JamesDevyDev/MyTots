@@ -162,7 +162,7 @@ const BrowsePage = () => {
                 <div ref={sentinelRef} className="w-full flex justify-center py-4">
                     {loading && <p className="text-gray-700 bungee-regular">Loading thoughts...</p>}
                     {!hasMore && posts.length > 0 && (
-                        <p className="text-gray-500 bungee-regular text-sm">You've seen all thoughts ✨</p>
+                        <p className="text-gray-500 bungee-regular text-sm">All Thoughts Loaded.</p>
                     )}
                 </div>
             </div>

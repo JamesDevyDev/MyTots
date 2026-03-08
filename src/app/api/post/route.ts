@@ -4,15 +4,29 @@ import Post from "@/utils/models/Post.Model";
 import "@/utils/models/User.Model";
 
 //Get All post
-export const GET = async () => {
+// GET /api/posts?page=1&limit=10
+export const GET = async (req: Request) => {
     try {
         await connectDb();
 
-        const allPosts = await Post.find()
-            .populate("posterId", "username")
-            .sort({ createdAt: -1 });  // Sort by createdAt in descending order
+        const { searchParams } = new URL(req.url);
+        const page = parseInt(searchParams.get("page") || "1");
+        const limit = parseInt(searchParams.get("limit") || "10");
+        const skip = (page - 1) * limit;
 
-        return NextResponse.json(allPosts);
+        const [allPosts, total] = await Promise.all([
+            Post.find()
+                .populate("posterId", "username")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit),
+            Post.countDocuments(),
+        ]);
+
+        return NextResponse.json({
+            posts: allPosts,
+            hasMore: skip + allPosts.length < total,
+        });
     } catch (error) {
         console.error(error);
         return NextResponse.json("Internal Server Error", { status: 500 });
